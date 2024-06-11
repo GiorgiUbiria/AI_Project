@@ -4,7 +4,9 @@ import random
 from maze import Maze
 import timeit
 
+# BFS implementation
 def bfs(maze, start, goal):
+    # Initialize double ended queue and keep track of the visited set
     queue = deque([(start, [start])])
     visited = set()
     visited.add(start)
@@ -14,6 +16,7 @@ def bfs(maze, start, goal):
     
     while queue:
         max_queue_size = max(max_queue_size, len(queue))
+        # Dequeue the first cell from the queue (FIFO)
         (vertex, path) = queue.popleft()
         expanded_nodes.append(vertex)
         if vertex == goal:
@@ -23,20 +26,26 @@ def bfs(maze, start, goal):
         for next_vertex in directions:
             if next_vertex not in visited:
                 visited.add(next_vertex)
+                # Append the next vertex to the queue and current path
                 queue.append((next_vertex, path + [next_vertex]))
 
     return None, expanded_nodes, len(expanded_nodes), max_queue_size
 
+# Check neighbors of a cell
 def get_neighbors(maze, vertex):
+    # Movement direcetions
     directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     neighbors = []
+    # Current cell coordinates
     x, y = vertex
     for dx, dy in directions:
         nx, ny = x + dx, y + dy
+        # Check if the cell is in the maze and is not blocked by walls
         if 0 <= nx < len(maze) and 0 <= ny < len(maze[0]) and maze[nx][ny] == 0:
             neighbors.append((nx, ny))
     return neighbors
 
+# Algorithm simulation
 def simulate_bfs(maze_width, maze_height, num_simulations):
     total_time = 0
     solved_count = 0

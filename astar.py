@@ -3,17 +3,23 @@ import resource
 from maze import Maze
 import timeit
 
+# Heuristic function - Manhattan distance (Measure the shortest distace between two points in a grid)
 def heuristic(a, b):
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 def astar(maze, start, goal):
+    # Initialize the open list heap
     open_list = []
+    # Push the start node with a cost of 0 to the min heap
     heappush(open_list, (0, start, [start]))
+    # Initialize the g_costs dictionary with the start node with a cost of 0 (cost to reach the any node from the start node)
     g_costs = {start: 0}
+    # Initialize the f_costs dictionary with the start node with a cost of the heuristic function (cost to reach the goal from the start node)
     f_costs = {start: heuristic(start, goal)}
     expanded_nodes = []
 
     while open_list:
+        # Pop the node with the lowest f_cost from the open list
         _, current, path = heappop(open_list)
         expanded_nodes.append(current)
 
@@ -21,6 +27,7 @@ def astar(maze, start, goal):
             return path, expanded_nodes, len(expanded_nodes), len(open_list)
 
         for neighbor in get_neighbors(maze, current):
+            # Calculate the tentative g_cost (Cost to reach the neighbor from the current node)
             tentative_g_cost = g_costs[current] + 1
             if neighbor not in g_costs or tentative_g_cost < g_costs[neighbor]:
                 g_costs[neighbor] = tentative_g_cost
@@ -39,6 +46,7 @@ def get_neighbors(maze, vertex):
             neighbors.append((nx, ny))
     return neighbors
 
+# A* Search simulation
 def simulate_astar(maze_width, maze_height, num_simulations):
     total_time = 0
     solved_count = 0

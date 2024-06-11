@@ -4,20 +4,24 @@ from bfs import bfs
 from ids import ids
 from astar import astar
 
+# Plot the maze
 def plot_maze(maze, path_explored=None, path_solution=None, title="Maze"):
     plt.figure(figsize=(10, 10))
     for x in range(len(maze)):
         for y in range(len(maze[0])):
+            # Plot the walls
             if maze[x][y] == 1:
                 plt.fill_between([y, y+1], [x, x], [x+1, x+1], color='black')
             else:
                 plt.fill_between([y, y+1], [x, x], [x+1, x+1], color='white')
 
+    # Plot the explored path
     if path_explored:
         px, py = zip(*path_explored)
         num_expanded_nodes = len(path_explored)
         plt.plot(py, px, color='blue', linestyle='--', label=f'Expanded {num_expanded_nodes} Nodes')
 
+    # Plot the solution path
     if path_solution:
         px, py = zip(*path_solution)
         plt.plot(py, px, color='red', linewidth=2, label='Solution Path')
@@ -30,7 +34,8 @@ def plot_maze(maze, path_explored=None, path_solution=None, title="Maze"):
 
     plt.show()
 
-def plot_maze_dynamic(maze, path_explored=None, path_solution=None, title="Maze", pause_duration=0.01):  # Further reduced pause_duration
+# Plot the maze dynamically
+def plot_maze_dynamic(maze, path_explored=None, path_solution=None, title="Maze", pause_duration=0.001):  # Further reduced pause_duration
     plt.figure(figsize=(10, 10))
     for x in range(len(maze)):
         for y in range(len(maze[0])):
@@ -44,6 +49,7 @@ def plot_maze_dynamic(maze, path_explored=None, path_solution=None, title="Maze"
 
     if path_explored:
         for i in range(len(path_explored)):
+            # Plot the explored path dynamically
             px, py = zip(*path_explored[:i+1])
             plt.cla()
             for x in range(len(maze)):
@@ -78,6 +84,7 @@ def plot_maze_dynamic(maze, path_explored=None, path_solution=None, title="Maze"
 
     plt.show()
 
+# Run the visualization process
 def run_visualization(maze_width, maze_height, wall_probability, algorithms=['bfs']):
     maze = Maze(maze_width, maze_height, wall_probability)
     maze.generate_maze()

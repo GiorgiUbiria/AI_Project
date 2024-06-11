@@ -4,14 +4,16 @@ from maze import Maze
 import timeit
 
 def ids(maze, start, goal):
+    # Increase the maximum recursion depth from 1 to the maximum number of cells in the maze
     for max_depth in range(1, len(maze) * len(maze[0])):
         visited = set()
         result = ids_helper(maze, start, goal, max_depth, visited)
-        if result[0] is not None:  # Check if a path was found
-            return result[:3]  # Return the first three elements of the result
+        if result[0] is not None:
+            return result[:3]
     return None, [], 0
 
 def ids_helper(maze, start, goal, max_depth, visited):
+    # Use a deque to initialize the queue with the start node and its path
     queue = deque([(start, [start], 0)])
     visited.add(start)
     expanded_nodes = []
@@ -23,7 +25,8 @@ def ids_helper(maze, start, goal, max_depth, visited):
         (vertex, path, depth) = queue.popleft()
         expanded_nodes.append(vertex)
         if vertex == goal:
-            return path, expanded_nodes, max_queue_size, len(visited)  # Include len(visited) in the return value
+            return path, expanded_nodes, max_queue_size, len(visited)
+        # If the goal is not yet reached, continue expanding the queue only if the current depth is less than the maximum depth
         if depth < max_depth:
             for next_vertex in get_neighbors(maze, vertex):
                 if next_vertex not in visited:
@@ -41,6 +44,7 @@ def get_neighbors(maze, vertex):
             neighbors.append((nx, ny))
     return neighbors
 
+# IDS simulation
 def simulate_ids(maze_width, maze_height, num_simulations):
     total_time = 0
     solved_count = 0
