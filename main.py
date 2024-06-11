@@ -1,6 +1,7 @@
 from bfs import simulate_bfs
 from ids import simulate_ids
 from astar import simulate_astar
+from astar_euclid import simulate_astar_euclid
 from visualization import run_visualization
 
 def main():
@@ -42,9 +43,9 @@ def main():
     print(f"  Empirical Avg Memory Usage: {avg_memory_usage_ids:.6f} MB")
     print(f"  Empirical Avg Path Length: {avg_path_length_ids}\n")
 
-    # Randomized Maze A*
+    # Randomized Maze A* with manhattan distance as heuristic
     avg_time_astar, solved_count_astar, avg_expanded_nodes_astar, avg_max_queue_size_astar, avg_memory_usage_astar, avg_path_length_astar = simulate_astar(maze_width, maze_height, num_simulations)
-    print("A*:")
+    print("A* (Manhattan):")
     print("  Theoretical Time Complexity: O(b^d)")
     print("  Theoretical Space Complexity: O(b^d)")
     print(f"  Empirical Average Time: {avg_time_astar:.6f} sec")
@@ -53,6 +54,18 @@ def main():
     print(f"  Empirical Avg Max Queue Size: {avg_max_queue_size_astar}\n")
     print(f"  Empirical Avg Memory Usage: {avg_memory_usage_astar:.6f} MB")
     print(f"  Empirical Avg Path Length: {avg_path_length_astar}\n")
+
+    # # Randomized Maze A* with euclidian distance as heuristic
+    # avg_time_astar_euclid, solved_count_astar_euclid, avg_expanded_nodes_astar_euclid, avg_max_queue_size_astar_euclid, avg_memory_usage_astar_euclid, avg_path_length_astar_euclid = simulate_astar_euclid(maze_width, maze_height, num_simulations)
+    # print("A* (Euclidian):")
+    # print("  Theoretical Time Complexity: O(b^d)")
+    # print("  Theoretical Space Complexity: O(b^d)")
+    # print(f"  Empirical Average Time: {avg_time_astar_euclid:.6f} sec")
+    # print(f"  Solved: {solved_count_astar_euclid}/{num_simulations}")
+    # print(f"  Empirical Avg Expanded Nodes: {avg_expanded_nodes_astar_euclid}")
+    # print(f"  Empirical Avg Max Queue Size: {avg_max_queue_size_astar_euclid}\n")
+    # print(f"  Empirical Avg Memory Usage: {avg_memory_usage_astar_euclid:.6f} MB")
+    # print(f"  Empirical Avg Path Length: {avg_path_length_astar_euclid}\n")
 
     # # Visualization for each algorithm
     # algorithms = ['bfs', 'ids', 'astar']

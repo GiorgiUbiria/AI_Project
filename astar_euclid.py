@@ -2,12 +2,13 @@ from heapq import heappop, heappush
 import resource
 from maze import Maze
 import timeit
+import math
 
-# Heuristic function - Manhattan distance (Measure the shortest distace between two points in a grid)
+# Heuristic function - Euclidian distance (Measure the straight line distance between two points in a grid) - Not admissible in our situation (only 4 directions)
 def heuristic(a, b):
-    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+    return math.sqrt((a[0] - b[0])**2 + (a[1] - b[1])**2)
 
-def astar(maze, start, goal):
+def astar_euclidian(maze, start, goal):
     # Initialize the open list heap
     open_list = []
     # Push the start node with a cost of 0 to the min heap
@@ -47,7 +48,7 @@ def get_neighbors(maze, vertex):
     return neighbors
 
 # A* Search simulation
-def simulate_astar(maze_width, maze_height, num_simulations):
+def simulate_astar_euclid(maze_width, maze_height, num_simulations):
     total_time = 0
     solved_count = 0
     total_expanded_nodes = 0
@@ -62,11 +63,11 @@ def simulate_astar(maze_width, maze_height, num_simulations):
         goal = (maze_width - 1, maze_height - 1)
 
         initial_memory = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-        timer = timeit.Timer(lambda: astar(maze.maze, start, goal))
+        timer = timeit.Timer(lambda: astar_euclidian(maze.maze, start, goal))
         exec_time = timer.timeit(number=1)
         final_memory = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 
-        path, _, expanded_nodes, max_queue_size = astar(maze.maze, start, goal)
+        path, _, expanded_nodes, max_queue_size = astar_euclidian(maze.maze, start, goal)
         total_time += exec_time
         total_expanded_nodes += expanded_nodes
         total_max_queue_size += max_queue_size
